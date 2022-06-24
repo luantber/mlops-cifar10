@@ -1,0 +1,4 @@
+gradio
+torch
+torchvision
+pytorch_lightning

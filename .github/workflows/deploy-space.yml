@@ -1,0 +1,23 @@
+name: Sync to Hugging Face hub
+on: [push]
+jobs:
+  sync-to-hub:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+     
+      - name: Clone Space
+        run: git clone https://huggingface.co/spaces/luantber/cifar-10
+      
+      - name: Copying files 
+        run: cp -r app.py requirements.txt dataset examples model cifar-10/ 
+
+      - name: Enter Folder 
+        run: cd cifar-10
+
+      - name: Push to hub
+        env:
+          HF_TOKEN: ${{ secrets.HF_TOKEN }}
+        run: git push https://luantber:$HF_TOKEN@huggingface.co/spaces/cifar-10 main
+
+      
