@@ -1,0 +1,4 @@
+dataset/train
+dataset/trainLabels.csv
+wandb
+**/__pycache__/
