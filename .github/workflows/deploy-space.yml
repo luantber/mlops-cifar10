@@ -3,21 +3,47 @@ on: [push]
 jobs:
   sync-to-hub:
     runs-on: ubuntu-latest
+
     steps:
       - uses: actions/checkout@v3
-     
+
       - name: Clone Space
         run: git clone https://huggingface.co/spaces/luantber/cifar-10
       
       - name: Copying files 
         run: cp -r app.py requirements.txt dataset examples model cifar-10/ 
 
-      - name: Enter Folder 
-        run: cd cifar-10
+      - name: Debug
+        run: ls -ls
+        working-directory: ./cifar-10
+
+      - name: setup git config
+        run: |
+          git config user.name "GitHub Actions Bot"
+          git config user.email "<luantber@gmail.com>"
+        working-directory: ./cifar-10
+        
+
+      - name: Stage
+        run: git add .
+        working-directory: ./cifar-10
+
+
+      - name: Commit
+        run: git commit --allow-empty -m "Sync from Github Actions"
+        working-directory: ./cifar-10
+
+      
+      - name: Debug Git
+        run: git status
+        working-directory: ./cifar-10
+
 
       - name: Push to hub
         env:
           HF_TOKEN: ${{ secrets.HF_TOKEN }}
-        run: git push https://luantber:$HF_TOKEN@huggingface.co/spaces/cifar-10 main
+        run: git push https://luantber:$HF_TOKEN@huggingface.co/spaces/luantber/cifar-10 main
+        working-directory: ./cifar-10
+
 
       
